@@ -25,6 +25,11 @@
 using namespace dnnl::impl::cpu::x64;
 #endif
 
+#if DNNL_LOONGARCH64
+#include "cpu/loongarch64/jit_uni_resampling.hpp"
+using namespace dnnl::impl::cpu::loongarch64;
+#endif
+
 namespace dnnl {
 namespace impl {
 namespace cpu {
@@ -36,6 +41,8 @@ using namespace dnnl::impl::data_type;
 const impl_list_item_t impl_list[] = {
         CPU_INSTANCE_X64(jit_uni_resampling_fwd_t)
         CPU_INSTANCE_X64(jit_avx512_common_resampling_bwd_t)
+
+        CPU_INSTANCE_LOONGARCH64(jit_uni_resampling_fwd_t)
 
         CPU_INSTANCE(simple_resampling_fwd_t)
         CPU_INSTANCE(simple_resampling_bwd_t)

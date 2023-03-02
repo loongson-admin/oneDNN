@@ -2793,6 +2793,12 @@ typedef enum {
     /// Intel Streaming SIMD Extensions 4.1 (Intel SSE4.1)
     dnnl_cpu_isa_sse41 = 0x1,
 
+    /// loongarch lsx 128bit SIMD
+    dnnl_cpu_isa_lsx = 0x1,
+
+    /// loongarch lasx 256bit SIMD
+    dnnl_cpu_isa_lasx = 0x2,
+
     /// Intel Advanced Vector Extensions (Intel AVX)
     dnnl_cpu_isa_avx = 0x3,
 

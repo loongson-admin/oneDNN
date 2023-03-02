@@ -34,6 +34,12 @@ using namespace dnnl::impl::cpu::x64;
 using namespace dnnl::impl::cpu::aarch64;
 #endif
 
+#if DNNL_LOONGARCH64
+#include "cpu/loongarch64/jit_uni_batch_normalization.hpp"
+#include "cpu/loongarch64/jit_uni_batch_normalization_s8.hpp"
+using namespace dnnl::impl::cpu::loongarch64;
+#endif
+
 namespace dnnl {
 namespace impl {
 namespace cpu {
@@ -60,6 +66,8 @@ const impl_list_item_t impl_list[] = {
         CPU_INSTANCE_AARCH64(jit_uni_batch_normalization_bwd_t<sve_512>)
         CPU_INSTANCE_AARCH64(jit_uni_batch_normalization_fwd_t<asimd>)
         CPU_INSTANCE_AARCH64(jit_uni_batch_normalization_bwd_t<asimd>)
+        CPU_INSTANCE_LOONGARCH64(jit_uni_batch_normalization_fwd_t<lasx>)
+        CPU_INSTANCE_LOONGARCH64(jit_uni_batch_normalization_bwd_t<lasx>)
         CPU_INSTANCE(ncsp_batch_normalization_fwd_t<f32>)
         CPU_INSTANCE(ncsp_batch_normalization_bwd_t<f32>)
         CPU_INSTANCE(ncsp_batch_normalization_fwd_t<bf16>)
@@ -77,6 +85,7 @@ const impl_list_item_t impl_list[] = {
         CPU_INSTANCE_X64(jit_uni_batch_normalization_s8_fwd_t<avx2>)
         CPU_INSTANCE_X64(jit_uni_batch_normalization_s8_fwd_t<sse41>)
         CPU_INSTANCE_AARCH64(jit_uni_batch_normalization_s8_fwd_t<sve_512>)
+        CPU_INSTANCE_LOONGARCH64(jit_uni_batch_normalization_s8_fwd_t<lasx>)
         CPU_INSTANCE(ref_batch_normalization_fwd_t<s8>)
         /* eol */
         nullptr,

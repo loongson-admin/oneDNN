@@ -75,6 +75,7 @@
 #define DNNL_PPC64_ONLY(...) Z_CONDITIONAL_DO(DNNL_PPC64_ONLY, __VA_ARGS__)
 #define DNNL_S390X_ONLY(...) Z_CONDITIONAL_DO(DNNL_S390X_ONLY, __VA_ARGS__)
 #define DNNL_AARCH64_ONLY(...) Z_CONDITIONAL_DO(DNNL_AARCH64, __VA_ARGS__)
+#define DNNL_LOONGARCH64_ONLY(...) Z_CONDITIONAL_DO(DNNL_LOONGARCH64, __VA_ARGS__)
 
 // Using Arm Compute Library kernels is optional for AArch64 builds
 // and can be enabled with the DNNL_AARCH64_USE_ACL CMake option
@@ -82,6 +83,10 @@
 #define DNNL_AARCH64_ACL_ONLY(...) __VA_ARGS__
 #else
 #define DNNL_AARCH64_ACL_ONLY(...)
+#endif
+
+#if DNNL_LOONGARCH64
+#define DNNL_LOONGARCH64_ONLY(...) Z_CONDITIONAL_DO(DNNL_LOONGARCH64, __VA_ARGS__)
 #endif
 
 namespace dnnl {

@@ -23,6 +23,11 @@
 using namespace dnnl::impl::cpu::x64;
 #endif
 
+#if DNNL_LOONGARCH64
+#include "cpu/loongarch64/jit_uni_reduction.hpp"
+using namespace dnnl::impl::cpu::loongarch64;
+#endif
+
 namespace dnnl {
 namespace impl {
 namespace cpu {
@@ -33,6 +38,8 @@ using namespace dnnl::impl::data_type;
 // clang-format off
 const impl_list_item_t impl_list[] = {
     CPU_INSTANCE_X64(jit_uni_reduction_t)
+
+    CPU_INSTANCE_LOONGARCH64(jit_uni_reduction_t)
 
     CPU_INSTANCE(ref_reduction_t<f32, f32, f32>)
     CPU_INSTANCE(ref_reduction_t<bf16, bf16, f32>)

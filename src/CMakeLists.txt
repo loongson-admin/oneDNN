@@ -125,9 +125,15 @@ target_include_directories(${LIB_NAME} PUBLIC
     $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
     )
 
+if (USE_CBLAS)
+target_link_libraries_build(${LIB_NAME}
+    "${EXTRA_SHARED_LIBS};${EXTRA_STATIC_LIBS};-lopenblas")
+target_link_libraries_install(${LIB_NAME} "${EXTRA_SHARED_LIBS};-lopenblas")
+else()
 target_link_libraries_build(${LIB_NAME}
     "${EXTRA_SHARED_LIBS};${EXTRA_STATIC_LIBS}")
 target_link_libraries_install(${LIB_NAME} "${EXTRA_SHARED_LIBS}")
+endif()
 if(DNNL_LIBRARY_TYPE STREQUAL "STATIC")
     target_link_libraries_install(${LIB_NAME} "${EXTRA_STATIC_LIBS}")
 endif()

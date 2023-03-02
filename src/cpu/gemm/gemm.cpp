@@ -40,6 +40,10 @@
 #include "cpu/x64/gemm/gemm_driver.hpp"
 
 using namespace dnnl::impl::cpu::x64;
+#elif DNNL_LOONGARCH64
+#include "cpu/loongarch64/cpu_isa_traits.hpp"
+#include "cpu/loongarch64/gemm/gemm_driver.hpp"
+using namespace dnnl::impl::cpu::loongarch64;
 #endif
 
 namespace dnnl {
@@ -128,6 +132,14 @@ dnnl_status_t extended_sgemm(const char *transa, const char *transb,
                 A, lda, dummy_ao, B, ldb, dummy_bo, beta, C, ldc, bias,
                 force_jit_nocopy_gemm);
     }
+#elif DNNL_LOONGARCH64
+    if (mayiuse(lasx)) {
+        float *dummy_ao = nullptr;
+        float *dummy_bo = nullptr;
+        return gemm_driver(transa, transb, bias ? "C" : nullptr, M, N, K, alpha,
+                A, lda, dummy_ao, B, ldb, dummy_bo, beta, C, ldc, bias,
+                force_jit_nocopy_gemm);
+    }
 #endif
 
     return ref_gemm<float>(
@@ -190,6 +202,10 @@ dnnl_status_t gemm_s8x8s32(const char *transa, const char *transb,
     if (mayiuse(sse41) && !mayiuse(avx512_mic))
         return gemm_driver(transa, transb, offsetc, M, N, K, alpha, A, LDA, ao,
                 B, LDB, bo, beta, C, LDC, co, false);
+#elif DNNL_LOONGARCH64
+        if (mayiuse(lasx))
+                return gemm_driver(transa, transb, offsetc, M, N, K, alpha, A, LDA, ao,
+                        B, LDB, bo, beta, C, LDC, co, false);
 #endif
 
     return ref_gemm_s8x8s32(transa, transb, offsetc, M, N, K, alpha, A, LDA, ao,
@@ -218,6 +234,15 @@ dnnl_status_t gemm_s8x8s32(const char *transa, const char *transb,
         return gemm_driver(transa, transb, offsetc, M, N, K, alpha, A, LDA, ao,
                 B, LDB, bo, beta, C, LDC, co, false);
     else if (use_s8u8)
+        return simple_gemm_s8s8s32(transa, transb, offsetc, M, N, K, alpha, A,
+                LDA, ao, B, LDB, bo, beta, C, LDC, co);
+
+#elif DNNL_LOONGARCH64
+    bool use_s8u8 = true
+            && utils::everyone_is(0, *ao, *bo) // so far a requirement
+            && IMPLICATION(USE_MKL_IGEMM == 0, mayiuse(lasx));
+
+     if (use_s8u8)
         return simple_gemm_s8s8s32(transa, transb, offsetc, M, N, K, alpha, A,
                 LDA, ao, B, LDB, bo, beta, C, LDC, co);
 #endif

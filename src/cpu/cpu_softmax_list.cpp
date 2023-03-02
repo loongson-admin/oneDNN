@@ -25,6 +25,9 @@ using namespace dnnl::impl::cpu::x64;
 #elif DNNL_AARCH64
 #include "cpu/aarch64/jit_uni_softmax.hpp"
 using namespace dnnl::impl::cpu::aarch64;
+#elif DNNL_LOONGARCH64
+#include "cpu/loongarch64/jit_uni_softmax.hpp"
+using namespace dnnl::impl::cpu::loongarch64;
 #endif
 
 namespace dnnl {
@@ -42,6 +45,7 @@ const impl_list_item_t impl_list[] = {
         CPU_INSTANCE_X64(jit_uni_softmax_fwd_t<sse41>)
         CPU_INSTANCE_AARCH64(jit_uni_softmax_fwd_t<sve_512>)
         CPU_INSTANCE_AARCH64(jit_uni_softmax_bwd_t<sve_512>)
+        CPU_INSTANCE_LOONGARCH64(jit_uni_softmax_fwd_t<lasx>)
         CPU_INSTANCE(ref_softmax_fwd_t<f32>)
         CPU_INSTANCE(ref_softmax_bwd_t<f32>)
         CPU_INSTANCE(ref_softmax_fwd_t<bf16>)

@@ -10912,6 +10912,10 @@ enum class cpu_isa {
     all = dnnl_cpu_isa_all,
     /// @copydoc dnnl_cpu_isa_sse41
     sse41 = dnnl_cpu_isa_sse41,
+    /// @copydoc dnnl_cpu_isa_lsx,
+    lsx = dnnl_cpu_isa_lsx,
+    /// @copydoc dnnl_cpu_isa_lasx,
+    lasx = dnnl_cpu_isa_lasx,
     /// @copydoc dnnl_cpu_isa_avx
     avx = dnnl_cpu_isa_avx,
     /// @copydoc dnnl_cpu_isa_avx2

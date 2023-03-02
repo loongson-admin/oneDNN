@@ -29,6 +29,8 @@ const impl_list_map_t regular_f32_s32_impl_list_map {
 
         DNNL_X64_ONLY(CPU_REORDER_INSTANCE(x64::jit_blk_reorder_t),)
         DNNL_X64_ONLY(CPU_REORDER_INSTANCE(x64::jit_uni_reorder_t),)
+        DNNL_LOONGARCH64_ONLY(CPU_REORDER_INSTANCE(loongarch64::jit_blk_reorder_t),)
+        DNNL_LOONGARCH64_ONLY(CPU_REORDER_INSTANCE(loongarch64::jit_uni_reorder_t),)
 
         DNNL_AARCH64_ONLY(CPU_REORDER_INSTANCE(aarch64::jit_uni_reorder_t),)
 

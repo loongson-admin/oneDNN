@@ -28,7 +28,7 @@ foreach(SOURCE_FILE ${SOURCES_EXTRA})
     list(APPEND SOURCES "${SOURCE_FILE}")
 endforeach()
 
-if((DNNL_TARGET_ARCH STREQUAL "X64") OR (DNNL_TARGET_ARCH STREQUAL "AARCH64"))
+if((DNNL_TARGET_ARCH STREQUAL "X64") OR (DNNL_TARGET_ARCH STREQUAL "AARCH64") OR (DNNL_TARGET_ARCH STREQUAL "LOONGARCH64"))
     file(GLOB_RECURSE SOURCES_JIT_UTILS
         ${CMAKE_CURRENT_SOURCE_DIR}/jit_utils/*.[ch]
         ${CMAKE_CURRENT_SOURCE_DIR}/jit_utils/*.[ch]pp
@@ -42,7 +42,7 @@ if(NOT DNNL_ENABLE_JIT_PROFILING)
     # XXX: the profiling interface will still be built and present
     add_definitions_with_host_compiler(-DDNNL_ENABLE_JIT_PROFILING=0)
     # Don't enable support for linux_perf and VTune Amplifier
-    if((DNNL_TARGET_ARCH STREQUAL "X64") OR (DNNL_TARGET_ARCH STREQUAL "AARCH64"))
+    if((DNNL_TARGET_ARCH STREQUAL "X64") OR (DNNL_TARGET_ARCH STREQUAL "AARCH64") OR (DNNL_TARGET_ARCH STREQUAL "LOONGARCH64"))
         list(REMOVE_ITEM SOURCES_EXTRA
             "${CMAKE_CURRENT_SOURCE_DIR}/jit_utils/jitprofiling/jitprofiling.c"
             "${CMAKE_CURRENT_SOURCE_DIR}/jit_utils/linux_perf/linux_perf.cpp"
@@ -111,4 +111,7 @@ if (DNNL_TARGET_ARCH STREQUAL "X64")
 endif()
 if (DNNL_TARGET_ARCH STREQUAL "AARCH64")
     add_subdirectory(aarch64)
+endif()
+if (DNNL_TARGET_ARCH STREQUAL "LOONGARCH64")
+    add_subdirectory(loongarch64)
 endif()

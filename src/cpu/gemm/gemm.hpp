@@ -27,6 +27,8 @@
 
 #if DNNL_X64
 #include "cpu/x64/cpu_isa_traits.hpp"
+#elif DNNL_LOONGARCH64
+#include "cpu/loongarch64/cpu_isa_traits.hpp"
 #endif
 
 namespace dnnl {
@@ -55,6 +57,8 @@ dnnl_status_t gemm_bf16bf16f32(const char *transa, const char *transb,
 #define GEMM_IMPL_STR "gemm:blas"
 #elif DNNL_X64
 #define GEMM_IMPL_STR "gemm:jit"
+#elif DNNL_LOONGARCH64
+#define GEMM_IMPL_STR "gemm:jit:lasx"
 #else
 #define GEMM_IMPL_STR "gemm:ref"
 #endif
@@ -65,6 +69,9 @@ dnnl_status_t gemm_bf16bf16f32(const char *transa, const char *transb,
 #elif DNNL_X64
 #define IGEMM_S8U8S32_IMPL_STR "igemm_s8u8s32:jit"
 #define IGEMM_S8S8S32_IMPL_STR "igemm_s8s8s32:jit"
+#elif DNNL_LOONGARCH64
+#define IGEMM_S8U8S32_IMPL_STR "igemm_s8u8s32:jit:lasx"
+#define IGEMM_S8S8S32_IMPL_STR "igemm_s8s8s32:jit:lasx"
 #else
 #define IGEMM_S8U8S32_IMPL_STR "igemm_s8u8s32:ref"
 #define IGEMM_S8S8S32_IMPL_STR "igemm_s8s8s32:ref"
